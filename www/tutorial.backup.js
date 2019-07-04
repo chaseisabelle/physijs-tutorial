@@ -5,13 +5,10 @@ Physijs.scripts.ammo = 'ammo.js';
 
 var initScene, render, renderer, scene, camera, box;
 
-$(function() {
-    var viewport = $('#viewport');
-
+initScene = function() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
-
-    renderer.setSize(viewport.innerWidth, viewport.innerHeight);
-    viewport.domElement.appendChild($(renderer.domElement));
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.getElementById( 'viewport' ).appendChild( renderer.domElement );
 
     scene = new Physijs.Scene;
 
@@ -21,9 +18,6 @@ $(function() {
         1,
         1000
     );
-
-    scene.setGravity ({x:0, y:-1, z:0});
-
     camera.position.set( 60, 50, 60 );
     camera.lookAt( scene.position );
     scene.add( camera );
@@ -36,10 +30,12 @@ $(function() {
     scene.add( box );
 
     requestAnimationFrame( render );
-});
+};
 
 render = function() {
     scene.simulate(); // run physics
     renderer.render( scene, camera); // render the scene
     requestAnimationFrame( render );
 };
+
+window.onload = initScene();
